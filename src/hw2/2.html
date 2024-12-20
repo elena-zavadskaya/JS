@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Возведение в степень</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            min-height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Возведение (Y - 2) в степень Y</h1>
+
+    <form id="exponent-form">
+        <label>Введите число Y: <input type="number" id="inputY" required></label><br><br>
+        <button type="submit">Вычислить</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        const baseObject = {
+            base: 2,
+            calculateExponent: function(Y) {
+                return Math.pow(Y - 2, Y);
+            }
+        };
+
+        document.getElementById('exponent-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const Y = parseFloat(document.getElementById('inputY').value);
+
+            const result = baseObject.calculateExponent(Y);
+
+            document.getElementById('result').textContent = `Результат: (Y - 2)^Y = ${result}`;
+        });
+    </script>
+
+</body>
+</html>

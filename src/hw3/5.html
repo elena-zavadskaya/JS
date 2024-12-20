@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сортировка товаров по средней цене</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #FFCA00;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #BFA130;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Самые дешевые товары</h1>
+
+    <textarea id="products" rows="10" placeholder="Введите товары и их цены в формате:&#10;Товар1: цена1, цена2, цена3; Товар2: цена1, цена2, цена3"></textarea>
+
+    <button onclick="sortProducts()">Сортировать товары по средней цене</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function sortProducts() {
+        const input = document.getElementById('products').value.trim();
+
+        const productData = input.split('; ').map(item => item.trim());
+
+        const products = [];
+
+        productData.forEach(data => {
+            const [product, prices] = data.split(': ');
+            const priceArray = prices.split(', ').map(Number);
+
+            const averagePrice = priceArray.reduce((sum, price) => sum + price, 0) / priceArray.length;
+
+            products.push({ product, averagePrice });
+        });
+
+        products.sort((a, b) => {
+            if (a.averagePrice === b.averagePrice) {
+                return a.product.localeCompare(b.product);
+            }
+            return a.averagePrice - b.averagePrice;
+        });
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = products.map(item => item.product).join('<br>');
+    }
+</script>
+
+</body>
+</html>

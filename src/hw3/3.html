@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Максимальная прибыль товара</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #FFCA00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #BFA130;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Найти товар с максимальной прибылью</h1>
+
+    <textarea id="inputData" rows="10" placeholder="Введите записи о продажах. Пример:&#10;Товар1,100&#10;Товар2,200&#10;END"></textarea>
+
+    <button onclick="calculateMaxProfit()">Найти товар с максимальной прибылью</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+    function calculateMaxProfit() {
+        const inputData = document.getElementById('inputData').value.trim().split('\n');
+
+        const salesData = {};
+
+        for (let i = 0; i < inputData.length; i++) {
+            const entry = inputData[i].trim();
+
+            if (entry === 'END') {
+                break;
+            }
+
+            const [product, profit] = entry.split(',');
+
+            const profitValue = parseInt(profit);
+
+            if (salesData[product]) {
+                salesData[product] += profitValue;
+            } else {
+                salesData[product] = profitValue;
+            }
+        }
+
+        let maxProfit = -Infinity;
+        let maxProfitProduct = '';
+
+        for (const product in salesData) {
+            if (salesData[product] > maxProfit) {
+                maxProfit = salesData[product];
+                maxProfitProduct = product;
+            }
+        }
+
+        document.getElementById('result').textContent = `Товар с максимальной прибылью: ${maxProfitProduct} ${maxProfit}`;
+    }
+</script>
+
+</body>
+</html>

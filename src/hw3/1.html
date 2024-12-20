@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка на палиндром</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            min-height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Проверка на палиндром</h1>
+
+    <form id="palindrome-form">
+        <label for="inputValue">Введите значение:</label><br>
+        <input type="text" id="inputValue" required><br><br>
+        <button type="submit">Проверить</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('palindrome-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const inputValue = document.getElementById('inputValue').value.trim();
+
+            if (inputValue === '') {
+                document.getElementById('result').textContent = 'Введите текст для проверки.';
+                return;
+            }
+
+            const isPalindrome = checkPalindrome(inputValue);
+
+            document.getElementById('result').textContent = isPalindrome
+                ? `"${inputValue}" является палиндромом.`
+                : `"${inputValue}" не является палиндромом.`;
+        });
+
+        function checkPalindrome(value) {
+            const cleanedValue = value.replace(/[^a-zA-Zа-яА-Я0-9]/g, '').toLowerCase();
+
+            if (cleanedValue === '') {
+                return false;
+            }
+
+            const reversedValue = cleanedValue.split('').reverse().join('');
+            return cleanedValue === reversedValue;
+        }
+    </script>
+
+</body>
+</html>

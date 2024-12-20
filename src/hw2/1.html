@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка существования треугольника</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            min-height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Проверка существования треугольника</h1>
+
+    <form id="triangle-form">
+        <label>Сторона A: <input type="number" id="sideA" required></label><br><br>
+        <label>Сторона B: <input type="number" id="sideB" required></label><br><br>
+        <label>Сторона C: <input type="number" id="sideC" required></label><br><br>
+        <button type="submit">Проверить</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function checkTriangleExistence(a, b, c) {
+            if (a + b > c && a + c > b && b + c > a) {
+                return "Треугольник существует.";
+            } else {
+                return "Треугольник не существует.";
+            }
+        }
+
+        document.getElementById('triangle-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const sideA = parseFloat(document.getElementById('sideA').value);
+            const sideB = parseFloat(document.getElementById('sideB').value);
+            const sideC = parseFloat(document.getElementById('sideC').value);
+
+            const result = checkTriangleExistence(sideA, sideB, sideC);
+            document.getElementById('result').textContent = result;
+        });
+    </script>
+</body>
+</html>

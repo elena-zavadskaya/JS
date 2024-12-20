@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заполнение данных в паспорте</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            min-height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        #passport-container {
+            position: relative;
+            width: 600px;
+            margin: 0 auto;
+        }
+        #passport {
+            width: 100%;
+            height: auto;
+        }
+        .passport-field {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            font-family: "Arial", sans-serif;
+        }
+        #surname {
+            top: 472px;
+            left: 300px;
+        }
+        #name {
+            top: 535px;
+            left: 300px;
+        }
+        #patronymic {
+            top: 566px;
+            left: 300px;
+        }
+        #birth-date {
+            top: 599px;
+            left: 350px;
+        }
+        #birth-place {
+            top: 630px;
+            left: 280px;
+        }
+        #gender {
+            top: 599px;
+            left: 221px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Заполните данные для паспорта</h1>
+
+    <form id="passport-form">
+        <label>Фамилия: <input type="text" id="input-surname" required></label><br><br>
+        <label>Имя: <input type="text" id="input-name" required></label><br><br>
+        <label>Отчество: <input type="text" id="input-patronymic" required></label><br><br>
+        <label>Пол:
+            <select id="input-gender" required>
+                <option value="Мужской">Мужской</option>
+                <option value="Женский">Женский</option>
+            </select>
+        </label><br><br>
+        <label>Дата рождения: <input type="date" id="input-birth-date" required></label><br><br>
+        <label>Место рождения: <input type="text" id="input-birth-place" required></label><br><br>
+        <button type="submit">Заполнить паспорт</button>
+    </form>
+
+    <button id="transliterate-button">Вывести латиницей</button>
+
+    <div id="passport-container">
+        <img src="pass.jpeg" alt="Изображение паспорта" id="passport">
+
+        <div id="surname" class="passport-field"></div>
+        <div id="name" class="passport-field"></div>
+        <div id="patronymic" class="passport-field"></div>
+        <div id="birth-date" class="passport-field"></div>
+        <div id="birth-place" class="passport-field"></div>
+        <div id="gender" class="passport-field"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('passport-form');
+
+        const surnameField = document.getElementById('surname');
+        const nameField = document.getElementById('name');
+        const patronymicField = document.getElementById('patronymic');
+        const birthDateField = document.getElementById('birth-date');
+        const birthPlaceField = document.getElementById('birth-place');
+        const genderField = document.getElementById('gender');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const surname = document.getElementById('input-surname').value;
+            const name = document.getElementById('input-name').value;
+            const patronymic = document.getElementById('input-patronymic').value;
+            const gender = document.getElementById('input-gender').value;
+            const birthDate = document.getElementById('input-birth-date').value;
+            const birthPlace = document.getElementById('input-birth-place').value;
+
+            surnameField.textContent = surname;
+            nameField.textContent = name;
+            patronymicField.textContent = patronymic;
+            birthDateField.textContent = formatDate(birthDate);
+            birthPlaceField.textContent = birthPlace;
+            genderField.textContent = gender;
+        });
+
+        function formatDate(dateStr) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateStr).toLocaleDateString('ru-RU', options);
+        }
+
+        const transliterationMap = {
+            'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'ZH', 'З': 'Z', 'И': 'I', 'Й': 'Y',
+            'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F',
+            'Х': 'KH', 'Ц': 'TS', 'Ч': 'CH', 'Ш': 'SH', 'Щ': 'SHCH', 'Ы': 'Y', 'Э': 'E', 'Ю': 'YU', 'Я': 'YA',
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y',
+            'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f',
+            'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+        };
+
+        function transliterate(text) {
+            return text.split('').map(function(char) {
+                return transliterationMap[char] || char;
+            }).join('');
+        }
+
+        document.getElementById('transliterate-button').addEventListener('click', function() {
+            surnameField.textContent = transliterate(surnameField.textContent);
+            nameField.textContent = transliterate(nameField.textContent);
+            patronymicField.textContent = transliterate(patronymicField.textContent);
+            birthPlaceField.textContent = transliterate(birthPlaceField.textContent);
+            genderField.textContent = transliterate(genderField.textContent);
+        });
+    </script>
+
+</body>
+</html>

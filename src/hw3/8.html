@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай число</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #FFCA00;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #BFA130;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #score {
+            margin-top: 10px;
+            font-size: 16px;
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Угадай число</h1>
+
+    <input type="number" id="minValue" placeholder="Введите минимальное значение (a)">
+    <input type="number" id="maxValue" placeholder="Введите максимальное значение (b)">
+
+    <button onclick="startGame()">Начать игру</button>
+
+    <input type="number" id="guess" placeholder="Введите ваше предположение" style="display:none;">
+    <button id="submitGuess" style="display:none;" onclick="makeGuess()">Проверить</button>
+
+    <div id="result"></div>
+    <div id="score"></div>
+</div>
+
+<script>
+    let randomNumber;
+    let attempts = 0;
+    let score = 100;
+    let maxAttempts = 5;
+
+    function startGame() {
+        const min = parseInt(document.getElementById('minValue').value);
+        const max = parseInt(document.getElementById('maxValue').value);
+
+        if (isNaN(min) || isNaN(max) || min >= max) {
+            document.getElementById('result').textContent = 'Некорректный интервал. Введите корректные значения.';
+            return;
+        }
+
+        randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        attempts = 0;
+        score = 100;
+
+        document.getElementById('guess').style.display = 'block';
+        document.getElementById('submitGuess').style.display = 'block';
+
+        document.getElementById('result').textContent = `Число загадано в интервале [${min}, ${max}]. Угадайте его!`;
+        document.getElementById('score').textContent = `Осталось попыток: ${maxAttempts - attempts}`;
+    }
+
+    function makeGuess() {
+        const guess = parseInt(document.getElementById('guess').value);
+
+        if (isNaN(guess)) {
+            document.getElementById('result').textContent = 'Пожалуйста, введите число.';
+            return;
+        }
+
+        attempts++;
+
+        if (attempts > maxAttempts) {
+            document.getElementById('result').textContent = `Вы исчерпали все попытки. Загаданное число было ${randomNumber}.`;
+            document.getElementById('score').textContent = '';
+            return;
+        }
+
+        score -= 20;
+
+        if (guess === randomNumber) {
+            document.getElementById('result').textContent = `Поздравляем! Вы угадали число ${randomNumber} за ${attempts} попыток.`;
+            document.getElementById('score').textContent = `Ваши баллы: ${score}`;
+            document.getElementById('guess').style.display = 'none';
+            document.getElementById('submitGuess').style.display = 'none';
+        } else if (guess < randomNumber) {
+            document.getElementById('result').textContent = 'Ваше число меньше загаданного.';
+            document.getElementById('score').textContent = `Осталось попыток: ${maxAttempts - attempts}`;
+        } else {
+            document.getElementById('result').textContent = 'Ваше число больше загаданного.';
+            document.getElementById('score').textContent = `Осталось попыток: ${maxAttempts - attempts}`;
+        }
+
+        if (attempts === maxAttempts) {
+            document.getElementById('result').textContent = `Попытки закончились! Загаданное число было: ${randomNumber}.`;
+            document.getElementById('guess').style.display = 'none';
+            document.getElementById('submitGuess').style.display = 'none';
+            document.getElementById('score').textContent = '';
+        }
+    }
+</script>
+
+</body>
+</html>

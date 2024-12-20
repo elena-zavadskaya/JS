@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подсчет калорийности продуктов</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label, input, button {
+            margin: 10px 0;
+            display: block;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #nutrients {
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #FFCA00;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #BFA130;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Подсчет калорийности продуктов</h1>
+
+        <label for="products">Введите названия продуктов (через пробел):</label>
+        <input type="text" id="products" placeholder="Яблоко Банан Огурец">
+
+        <label for="nutrients">Введите БЖУ (формат: белки-жиры-углеводы, через пробел):</label>
+        <input type="text" id="nutrients" placeholder="2-0.5-12 1-0.3-23 0.9-0.1-1.5">
+
+        <button onclick="calculateCalories()">Найти самый низкокалорийный продукт</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateCalories() {
+            const productNames = document.getElementById('products').value.split(' ');
+            const nutrientInfo = document.getElementById('nutrients').value.split(' ');
+
+            if (productNames.length !== nutrientInfo.length) {
+                document.getElementById('result').textContent = 'Количество продуктов и информации о БЖУ не совпадает.';
+                return;
+            }
+
+            let minCalories = Infinity;
+            let minCalorieProduct = '';
+
+            for (let i = 0; i < productNames.length; i++) {
+                const [proteins, fats, carbs] = nutrientInfo[i].split('-').map(Number);
+
+                const calories = 0.4 * proteins + 0.3 * fats + 0.3 * carbs;
+
+                if (calories < minCalories) {
+                    minCalories = calories;
+                    minCalorieProduct = productNames[i];
+                }
+            }
+
+            document.getElementById('result').textContent = `Самый низкокалорийный продукт: ${minCalorieProduct}`;
+        }
+    </script>
+
+</body>
+</html>

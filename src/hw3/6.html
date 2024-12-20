@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самая концертирующая группа</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: rgb(51, 21, 176);
+            background: linear-gradient(339deg, rgba(51, 21, 176, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #FFCA00;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #BFA130;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Группа с наибольшим количеством концертов</h1>
+
+    <textarea id="concerts" rows="10" placeholder="Введите информацию о концертах в формате:&#10;Группа1, ДД.ММ.ГГГГ&#10;Группа2, ДД.ММ.ГГГГ"></textarea>
+
+    <button onclick="findMostConcerts()">Найти группу с наибольшим количеством концертов</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function findMostConcerts() {
+        const input = document.getElementById('concerts').value.trim();
+
+        const concertRecords = input.split('\n').map(record => record.trim());
+
+        const concertCount = {};
+
+        concertRecords.forEach(record => {
+            const [band, date] = record.split(', ');
+
+            if (concertCount[band]) {
+                concertCount[band]++;
+            } else {
+                concertCount[band] = 1;
+            }
+        });
+
+        let maxConcerts = 0;
+        let maxBand = '';
+
+        for (let band in concertCount) {
+            if (concertCount[band] > maxConcerts) {
+                maxConcerts = concertCount[band];
+                maxBand = band;
+            }
+        }
+
+        document.getElementById('result').textContent = `${maxBand} ${maxConcerts}`;
+    }
+</script>
+
+</body>
+</html>
